@@ -25,6 +25,22 @@
 - `transition` 写在组件根下，引用的 target 必须存在。
 - `relation`、`gear*`、扩展子节点写在它们控制的显示对象内部。
 - 页面根尽量只挂主面板组件，不要把复杂页面全部堆进根组件。
+- 组件 XML 只引用资源，不决定图片资源的九宫格、平铺或禁用平滑语义。
+
+## 协议规则
+
+- 根 `<component>`、显示对象、结构节点和扩展节点只能写已确认合法的属性。
+- 显示对象属性合法性可参考 [attribute-reference.md](attribute-reference.md)。
+- `displayList` 标签变体可参考 [displaylist-variants.md](displaylist-variants.md)。
+- 协议来源和可靠边界可参考 [openfairygui-derived-notes.md](openfairygui-derived-notes.md)。
+
+## displayList 写回口径
+
+- 输入文本写 `inputtext`。
+- Loader3D 写 `loader3d`。
+- 树写 `list treeView="true"`。
+- 子组件实例写 `component`，并通过 `src` / `pkg` / `fileName` 指向已声明组件。
+- 扩展节点例如 `<Button>`、`<ProgressBar>` 写在对应扩展组件内部。
 
 ## 推荐拆分
 

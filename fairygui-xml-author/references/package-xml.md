@@ -33,10 +33,19 @@
 - `name`：资源文件名或显示名称，组件通常写 XML 文件名。
 - `path`：资源所在目录，保留项目已有口径。
 - `fileName`：组件实例中用于说明目标组件文件名，不写在资源声明上。
-- `scale="9grid"` + `scale9grid="x,y,w,h"`：可伸缩容器切图。
-- `gridTile`：平铺语义。
-- `smoothing="false"`：禁止平滑。
+- `scale="9grid"` + `scale9grid="x,y,w,h"`：九宫格切图。
+- `gridTile`：平铺切图。
+- `smoothing="false"`：禁用平滑。
 - `width` / `height`：样本或资源语义需要显式记录时再写。
+
+## 图片资源属性
+
+图片是否九宫格、平铺、禁用平滑，在 `package.xml` 的 `<image>` 资源声明阶段确定。
+
+- 九宫格：`scale="9grid"` + `scale9grid="x,y,w,h"`。
+- 平铺：按项目样本写 `gridTile`。
+- 禁用平滑：按项目样本或资源语义写 `smoothing="false"`。
+- 宽高：样本或资源面板明确记录时写 `width` / `height`。
 
 ## 跨包引用
 
@@ -47,9 +56,15 @@
 ## 资源语义
 
 - 面板底、按钮底、槽体、卡片框、进度条底/填充等可伸缩图，显示尺寸与原图不一致时优先检查九宫格。
+- 可重复纹理、连续背景、条纹、噪声、格子底等优先检查平铺。
 - 图标、插画、照片、徽章主体、文字图通常不要补九宫格。
-- 白模资源的颜色写在显示节点 `color` 上，不要修改资源文件。
+- 白模资源在 package 阶段只判断语义；最终颜色写在组件显示节点 `color` 上。
 - 资源语义不确定时标记“待确认”，不要猜 `scale9grid` 数值。
+
+## 协议来源
+
+- 包级标签、属性和资源语义可参考 [attribute-reference.md](attribute-reference.md)、[resource-semantics.md](resource-semantics.md) 和 [openfairygui-derived-notes.md](openfairygui-derived-notes.md)。
+- 这些参考文件只用于确认协议，不改变 `package.xml` 只声明资源的边界。
 
 ## 注意事项
 

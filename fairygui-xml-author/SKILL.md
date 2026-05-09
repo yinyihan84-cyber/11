@@ -95,18 +95,18 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 
 以下文档按任务需要读取。
 
-### 包与组件
+### package.xml / component.xml 入口
 
-- [Package XML](references/package-xml.md)：`packageDescription`、`resources`、`publish`、资源声明、九宫格和跨包引用。
-- [Component XML](references/component-xml.md)：`<component>`、`displayList`、组件拆分、`designImage`、扩展根组件和最小模板。
-- [Package Branch XML](references/package-xml.md)：分支包配置相关写法。
+- [Package XML](references/package-xml.md)：`packageDescription`、`resources`、`publish`、资源声明、图片资源属性、九宫格、平铺、平滑、白模染色、资源语义和包级协议来源。
+- [Component XML](references/component-xml.md)：`<component>`、`displayList`、显示对象属性、标签变体、组件拆分、`designImage`、扩展节点、controller/gear 和组件级协议来源。
+- [Package Branch XML](references/package-xml.md)：分支包配置相关写法，不承载资源语义。
 
-### 效果图判断
+### 效果图 / 截图 -> FairyGUI 结构判断
 
 - [Screenshot Judgment](judgment/screenshot-judgment.md)：页面类型、重复单元、滚动区域、按钮、loader、image、ProgressBar、controller 和 gear。
 - [Component Splitting](judgment/component-splitting.md)：页面根、面板、列表项、基础控件和公共组件拆分边界。
 
-### 显示对象与组件
+### displayList 节点与扩展组件
 
 - [Image](components/image.md)：静态切图、`src`、九宫格语义。
 - [Loader](components/loader.md)：运行时资源位、`url="ui://..."`、空 loader 占位。
@@ -118,13 +118,6 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 - [ProgressBar](components/progressbar.md)：ProgressBar 根组件和实例。
 - [Transition](components/transition.md)：最小 transition、闪烁、显隐、缩放。
 - [Relation](components/relation.md)：relation、group、pivot、anchor 和布局关系。
-
-### 协议与资源
-
-- [Attribute Reference](references/attribute-reference.md)：标签和属性名合法性。
-- [DisplayList Variants](references/displaylist-variants.md)：`displayList` 标签变体，例如 `inputtext`、`treeView`、`loader3d`。
-- [Resource Semantics](references/resource-semantics.md)：切图、九宫格、平铺、白模染色和纯切图约束。
-- [OpenFairyGUI Derived Notes](references/openfairygui-derived-notes.md)：协议来源说明和可靠边界。
 
 ### 校验与诊断
 
