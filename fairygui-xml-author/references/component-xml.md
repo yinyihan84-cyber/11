@@ -34,13 +34,40 @@
 - `displayList` 标签变体可参考 [displaylist-variants.md](displaylist-variants.md)。
 - 协议来源和可靠边界可参考 [openfairygui-derived-notes.md](openfairygui-derived-notes.md)。
 
+## 组件禁令
+
+- 不要发明未确认存在的标签或属性。
+- 不要引用不存在的 `id`、`src`、`pkg`、controller、page、transition。
+- 新写 XML 优先使用 canonical 属性名，不优先写 alias。
+- 不要随意改现有 `id`，除非任务要求重命名。
+- 判断依赖项目样本时，在结论里说明依据来自样本口径。
+- 没有真实解析器返回的位置信息时，不伪造“第几行第几列”。
+
 ## displayList 写回口径
 
+- 图片写 `image`。
+- 普通文本写 `text`。
 - 输入文本写 `inputtext`。
+- 富文本写 `richtext`。
+- 图形写 `graph`。
+- 分组写 `group`。
+- 普通 Loader 写 `loader`。
 - Loader3D 写 `loader3d`。
+- 动画资源实例优先写 `jta`。
+- 子组件实例写 `component`。
+- 普通列表写 `list`。
 - 树写 `list treeView="true"`。
-- 子组件实例写 `component`，并通过 `src` / `pkg` / `fileName` 指向已声明组件。
 - 扩展节点例如 `<Button>`、`<ProgressBar>` 写在对应扩展组件内部。
+
+注意：
+
+- `loader3D` 只作内部变体名，原始 XML 标签仍写 `loader3d`。
+- `tree` 是语义变体，不是常规最终写回标签。
+- `inputtext` 是输入文本的优先写回口径。
+- 只允许引用切图时，虽然协议允许 `graph`，但不得用 `graph` 参与视觉还原。
+- 缺图占位优先用空 loader，并在交付中说明对应的缺失资源。
+- 用户要求切图必须走 loader 时，已知资源也写 `<loader url="ui://pkgIdresId" fill="scaleFree"/>`，不要写 `<image src="resId"/>`。
+- 详细映射见 [displaylist-variants.md](displaylist-variants.md)。
 
 ## 推荐拆分
 

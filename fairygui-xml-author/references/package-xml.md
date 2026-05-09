@@ -61,6 +61,15 @@
 - 白模资源在 package 阶段只判断语义；最终颜色写在组件显示节点 `color` 上。
 - 资源语义不确定时标记“待确认”，不要猜 `scale9grid` 数值。
 
+## 资源禁令
+
+- 不要在未获要求时复制、搬运用户资源。
+- 用户已指定资源目录时，`package.xml` 必须优先回源到该目录。
+- 用户明确只允许引用切图时，不得用 `graph` 参与视觉还原。
+- 缺失切图时，不要擅自补造 UI；反馈缺口，或只生成空 loader 占位。
+- 用户要求切图必须走 loader 时，组件中使用 `<loader url="ui://pkgIdresId" fill="scaleFree"/>`，不要使用 `<image src="resId"/>`。
+- 无法确认资源语义时写“不确定”，不要猜九宫格、平铺、平滑等属性。
+
 ## 协议来源
 
 - 包级标签、属性和资源语义可参考 [attribute-reference.md](attribute-reference.md)、[resource-semantics.md](resource-semantics.md) 和 [openfairygui-derived-notes.md](openfairygui-derived-notes.md)。
