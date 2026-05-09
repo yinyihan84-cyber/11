@@ -34,7 +34,8 @@
 - `path`：资源所在目录，保留项目已有口径。
 - `fileName`：组件实例中用于说明目标组件文件名，不写在资源声明上。
 - `scale="9grid"` + `scale9grid="x,y,w,h"`：九宫格切图。
-- `gridTile`：平铺切图。
+- `scale="tile"`：平铺切图。
+- `gridTile`：tile grid 索引；只有样本或资源语义明确时才写，不能单独当作平铺标记。
 - `smoothing="false"`：禁用平滑。
 - `width` / `height`：样本或资源语义需要显式记录时再写。
 
@@ -43,7 +44,8 @@
 图片是否九宫格、平铺、禁用平滑，在 `package.xml` 的 `<image>` 资源声明阶段确定。
 
 - 九宫格：`scale="9grid"` + `scale9grid="x,y,w,h"`。
-- 平铺：按项目样本写 `gridTile`。
+- 平铺：写 `scale="tile"`。
+- tile grid：按项目样本写 `gridTile`。
 - 禁用平滑：按项目样本或资源语义写 `smoothing="false"`。
 - 宽高：样本或资源面板明确记录时写 `width` / `height`。
 

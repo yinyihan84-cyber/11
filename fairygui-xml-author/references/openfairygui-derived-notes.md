@@ -41,6 +41,14 @@
 
 新生成 XML 时，优先 canonical。
 
+### 4. 图片平铺由 `scale="tile"` 表达
+
+已确认的图片资源口径：
+
+- 九宫格写 `scale="9grid"`，并按需写 `scale9grid`
+- 平铺写 `scale="tile"`
+- `gridTile` 是 tile grid 索引，不是平铺主标记
+
 ## 已确认的能力边界
 
 ### 1. 当前项目级 validate 不完整

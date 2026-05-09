@@ -5,12 +5,12 @@ description: FairyGUI XML 写作技能包，提供直接编写、修改、排查
 
 ## 简介
 
-FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `package.xml`、`package_branch.xml` 和组件 XML，保证标签、属性、结构、资源和引用都能被 FairyGUI 工程读取。
+FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `package.xml` 和组件 XML，保证标签、属性、结构、资源和引用都能被 FairyGUI 工程读取。
 
 **注意事项**
 
 - 本技能用于直接写 FairyGUI XML，不依赖 FairyGUI 编辑器操作。
-- 编写前先判断目标文件类型：`package.xml`、`package_branch.xml` 或组件 XML。
+- 编写前先判断目标文件类型：`package.xml` 或组件 XML。
 - 任务来自效果图、截图、`res/效果图`、`切图/效果图`、`界面效果图` 等参考目录时，先判断视觉结构，再写 XML。
 - 不要把效果图当作一张大图平铺，也不要把重复数据项写成多套静态节点。
 - 不要把 FairyGUI XML 当作 HTML；只能写已确认合法的标签和属性。
@@ -41,19 +41,18 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 以下规则直接决定 FairyGUI XML 应如何编写：
 
 1. `package.xml` 只写包级资源声明、组件资源、图片资源、发布信息和资源语义。
-2. `package_branch.xml` 只写分支相关包配置，不混入组件显示对象。
-3. 组件 XML 根节点为 `<component>`，显示对象放在 `<displayList>`。
-4. 扩展能力通过根 `extention` 或显示对象子节点表达。
-5. 不要把包级资源声明写进组件 `displayList`。
-6. 不要把组件显示对象写进 `package.xml`。
-7. 不要发明未确认存在的标签或属性。
-8. 不要引用不存在的 `id`、`src`、`pkg`、controller、page、transition。
-9. 新写 XML 优先使用 canonical 属性名，不优先写 alias。
-10. 不要随意改现有 `id`，除非任务本身要求重命名。
-11. 命中重复数据项或滚动区域时，使用 `list + item`。
-12. 不要用 `image` 伪装按钮、进度条、运行时头像、奖励或广告位。
-13. 不要用 `transition` 代替基础状态显隐；状态优先用 controller + gear。
-14. 不要把参考图当作运行时节点塞进 `displayList`。
+2. 组件 XML 根节点为 `<component>`，显示对象放在 `<displayList>`。
+3. 扩展能力通过根 `extention` 或显示对象子节点表达。
+4. 不要把包级资源声明写进组件 `displayList`。
+5. 不要把组件显示对象写进 `package.xml`。
+6. 不要发明未确认存在的标签或属性。
+7. 不要引用不存在的 `id`、`src`、`pkg`、controller、page、transition。
+8. 新写 XML 优先使用 canonical 属性名，不优先写 alias。
+9. 不要随意改现有 `id`，除非任务本身要求重命名。
+10. 命中重复数据项或滚动区域时，使用 `list + item`。
+11. 不要用 `image` 伪装按钮、进度条、运行时头像、奖励或广告位。
+12. 不要用 `transition` 代替基础状态显隐；状态优先用 controller + gear。
+13. 不要把参考图当作运行时节点塞进 `displayList`。
 
 ## 效果图组件判定与自检
 
@@ -99,7 +98,6 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 
 - [Package XML](references/package-xml.md)：`packageDescription`、`resources`、`publish`、资源声明、图片资源属性、九宫格、平铺、平滑、白模染色、资源语义和包级协议来源。
 - [Component XML](references/component-xml.md)：`<component>`、`displayList`、显示对象属性、标签变体、组件拆分、`designImage`、扩展节点、controller/gear 和组件级协议来源。
-- [Package Branch XML](references/package-xml.md)：分支包配置相关写法，不承载资源语义。
 
 ### 效果图 / 截图 -> FairyGUI 结构判断
 

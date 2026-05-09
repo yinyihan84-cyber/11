@@ -25,6 +25,18 @@
 <image id="progress_bg" name="progress_bg.png" path="/res/" scale="9grid" scale9grid="11,12,5,4"/>
 ```
 
+## 平铺判断
+
+连续纹理、条纹、格子底、噪声底等需要重复铺满时，平铺语义写在 `package.xml` 图片资源声明上。
+
+写法：
+
+```xml
+<image id="tile_bg" name="tile_bg.png" path="/res/" scale="tile"/>
+```
+
+`gridTile` 不是平铺主标记，只在样本或资源面板明确给出 tile grid 索引时补写。
+
 ## 白模染色
 
 白模或灰模资源需要在显示节点上染色：

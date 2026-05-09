@@ -30,7 +30,8 @@
 常见口径：
 
 - 九宫格按钮：`scale="9grid"` + `scale9grid="x,y,w,h"`
-- 平铺图：写 `gridTile`
+- 平铺图：写 `scale="tile"`
+- tile grid 索引：样本明确时再写 `gridTile`
 - 禁止平滑：写 `smoothing="false"`
 - 当用户已明确提供切图面板中的宽高时，可同步写 `width` / `height`
 
