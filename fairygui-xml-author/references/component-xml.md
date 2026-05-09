@@ -26,6 +26,8 @@
 - `relation`、`gear*`、扩展子节点写在它们控制的显示对象内部。
 - 页面根尽量只挂主面板组件，不要把复杂页面全部堆进根组件。
 - 组件 XML 只引用资源，不决定图片资源的九宫格、平铺或禁用平滑语义。
+- 对象 `id` 必须沿用项目导出口径；常见为 `n0`、`n1`、`n2`，语义放 `name`，不要为了可读性自造 `n0_bg`、`n1_btn`。
+- 图片资源显示实例要跟样本选择 `loader url="ui://包id资源id"` 或 `image src="资源id"`；同一项目不要混用两套口径。
 
 ## 协议规则
 
@@ -45,7 +47,7 @@
 
 ## displayList 写回口径
 
-- 图片写 `image`。
+- 图片写 `image` 或 `loader`，以项目样本为准；样本使用 `loader url="ui://..." fill="scaleFree"` 时继续使用 loader。
 - 普通文本写 `text`。
 - 输入文本写 `inputtext`。
 - 富文本写 `richtext`。

@@ -18,6 +18,7 @@
 - 没有拼错字段名。
 - 新写 XML 优先使用 canonical 属性名，不扩散 alias。
 - `displayList` 标签变体符合 [../references/displaylist-variants.md](../references/displaylist-variants.md)。
+- 显示对象标签和资源引用方式符合项目样本口径，例如样本用 loader 展示图片时，新文件不应改用 image。
 
 ## 结构层
 
@@ -26,6 +27,7 @@
 - 扩展节点只出现在合法位置。
 - `relation`、`gear*`、`item` 没有出现在错误父节点下。
 - 对象 `id` 在同一组件内唯一。
+- 对象 `id` 形态符合项目样本；常见导出口径为 `n0`、`n1`，语义写在 `name`。
 - `extention` 与根组件或扩展子节点一致。
 
 ## 引用层
@@ -43,6 +45,7 @@
 ## 资源层
 
 - 每个引用图片的 `image` / `loader` 都能解析到 `package.xml` 资源和真实图片文件。
+- `ui://包id资源id` 的资源 id 与 `package.xml` 完全一致，且组件 `src/fileName` 与声明匹配。
 - 显示节点的 `size` 与图片原始宽高不一致时，已在资源语义中说明九宫格、平铺、等比缩放、裁切或待确认。
 - 用户明确给出的九宫格、平铺、平滑、白模染色信息已经写入对应资源或显示节点。
 - 不存在用 `graph`、文本块、颜色块替代缺失切图的情况，除非用户明确允许。
