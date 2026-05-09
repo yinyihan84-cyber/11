@@ -1,6 +1,5 @@
 ---
 name: fairygui-xml-author
-order: 2
 description: FairyGUI XML 写作技能包，提供直接编写、修改、排查和校验 FairyGUI 工程 XML 的规则、效果图结构判定方法和组件索引。
 ---
 
