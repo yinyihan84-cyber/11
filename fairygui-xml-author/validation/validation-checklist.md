@@ -18,7 +18,7 @@
 - 没有拼错字段名。
 - 新写 XML 优先使用 canonical 属性名，不扩散 alias。
 - `displayList` 标签变体符合 [../references/displaylist-variants.md](../references/displaylist-variants.md)。
-- 显示对象标签和资源引用方式符合项目样本口径，例如样本用 loader 展示图片时，新文件不应改用 image。
+- 显示对象标签和资源引用方式符合用户项目规范：引用文件夹资源图片时必须是 `<loader url="ui://包id资源id" fill="scaleFree"/>`，不得改用 `<image src="..."/>`。
 
 ## 结构层
 
@@ -44,8 +44,12 @@
 
 ## 资源层
 
-- 每个引用图片的 `image` / `loader` 都能解析到 `package.xml` 资源和真实图片文件。
+- 每个引用文件夹资源图片的 `loader` 都能解析到 `package.xml` 资源和真实图片文件，且带有 `fill="scaleFree"`。
+- 组件 `displayList` 中不得用 `<image src="..."/>` 引用文件夹资源图片；`package.xml` 中的 `<image>` 只是资源声明。
 - `ui://包id资源id` 的资源 id 与 `package.xml` 完全一致，且组件 `src/fileName` 与声明匹配。
+- `ui://` 的包 id 与当前 `packageDescription id` 完全一致；不要残留示例包 id、临时包 id 或旧包 id。
+- `.objs/workspace.json` 中 `doc.activeDoc`、`doc.openedDocs` 指向的组件 id 能在当前 `package.xml` 中解析，或已同步更新。
+- 同一 `path + name` 没有被重复声明为多个资源 id；组件引用复用已有资源 id。
 - 显示节点的 `size` 与图片原始宽高不一致时，已在资源语义中说明九宫格、平铺、等比缩放、裁切或待确认。
 - 用户明确给出的九宫格、平铺、平滑、白模染色信息已经写入对应资源或显示节点。
 - 不存在用 `graph`、文本块、颜色块替代缺失切图的情况，除非用户明确允许。
@@ -70,6 +74,7 @@
 - 本地引用闭合。
 - 没有明显重复 id。
 - 没有明显断裂的 controller/page/resource/transition 引用。
+- 没有明显断裂的 package id、组件 id、workspace 打开文档 id 或 `ui://` 前缀引用。
 - 如果效果图命中 list/item/state，已经实际落地组件拆分、`defaultItem`、controller/gear 和 package 声明。
 
 ## 保守策略

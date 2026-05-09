@@ -8,9 +8,10 @@
 
 - `src` 能在当前包 `package.xml` 中找到。
 - `pkg + src` 能在外部包中找到；跨包引用不要丢 `pkg`。
-- `url="ui://pkgidresid"` 的包 id 和资源 id 都存在。
+- `url="ui://pkgidresid"` 的包 id 必须等于当前 `packageDescription id`，资源 id 必须能在同一个 `package.xml` 中找到；校验时用当前包 id 作为前缀拆分，不要按固定长度或示例 id 猜测。
 - `fileName` 与目标组件资源的 `name` 一致。
 - `path + name` 能解析到真实磁盘文件。
+- 同一 `path + name` 不应出现多份资源声明；已有资源必须复用原 id，除非能证明是不同资源。
 
 ## 组件引用
 
@@ -18,6 +19,7 @@
 - `list defaultItem` 指向已声明 item 组件。
 - item XML 文件真实存在。
 - 基础控件组件如 ProgressBar、Button、RewardCell 已在 `package.xml` 中声明。
+- 如果 `.objs/workspace.json` 存在，`doc.activeDoc` 和 `doc.openedDocs` 中的 `ui://包id组件id` 必须能解析到当前 `package.xml` 的组件声明；否则要补组件声明、改用已有 id，或同步 workspace。
 
 ## controller 和 page
 

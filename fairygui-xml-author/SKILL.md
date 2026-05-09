@@ -17,6 +17,8 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 - 无法确认标签、属性、资源或跨包引用时，先查项目样本和本技能索引；仍无法确认时标记缺口。
 - 新写 XML 时优先复用现有样本的命名、拆分、布尔值、默认值和引用口径。
 - 项目样本优先于通用协议；尤其是显示对象标签、资源引用方式、对象 id 形态和组件拆分口径。
+- 写入已有 FairyGUI 工程前，必须先识别真实包和资源索引：读取已有 `package.xml`、`.objs/workspace.json`、`.objs/metas/` 和现有组件 XML；`packageDescription id`、资源 `id`、组件 `id` 以工程已有值为准，不要自造 `pkg001`、`root01` 等示例 id。
+- 用户项目规范：组件 XML 中引用文件夹资源图片时，必须使用 `<loader url="ui://包id资源id" fill="scaleFree"/>`；不要用 `<image src="资源id"/>` 承载这类切图。
 - 效果图上有但项目没有对应切图或资源时，保留结构并使用空 `loader` 占位；不要用 `graph`、文本色块、程序化形状或自造图片替代缺失美术。
 
 ## 核心特点
@@ -30,7 +32,7 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 ## 默认流程
 
 1. 判断目标文件类型。
-2. 收集包 id、资源 id/name/path、对象 id、controller/page、transition、`src/pkg/fileName`、`defaultItem` 和跨包引用。
+2. 收集包 id、资源 id/name/path、对象 id、controller/page、transition、`src/pkg/fileName`、`defaultItem` 和跨包引用；已有工程先从 `package.xml` 与 `.objs/workspace.json` 建立 id 映射。
 3. 如果任务来自效果图或截图，先读取效果图判断文档。
 4. 按目标文件读取对应参考文档和组件文档。
 5. 写 XML 时优先复用项目已有样本；没有样本时才使用通用推荐。
@@ -51,12 +53,13 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 8. 新写 XML 优先使用 canonical 属性名，不优先写 alias。
 9. 对象 `id` 形态必须跟项目样本一致；常见编辑器导出为 `n0`、`n1`，语义写在 `name`，不要擅自写 `n0_bg` 等自造格式。
 10. 命中重复数据项或滚动区域时，使用 `list + item`。
-11. 写组件 `displayList` 前必须先查同包或同项目样本确定图片实例口径：样本用 `<loader url="ui://..." fill="scaleFree"/>` 时，所有图片切图实例继续写 `loader`；只有样本明确在 `displayList` 中使用 `<image src="..."/>` 时才写 `image`。不要把 `package.xml` 里的 `<image>` 资源声明误当成组件显示层也应写 `<image>` 的依据。
-12. 效果图需要的图片资源不存在时，只生成带语义 `name`、坐标和尺寸的空 `<loader fill="scaleFree"/>` 占位，并在交付说明列出缺失资源；不要用 `graph`、文本、色块或程序化形状自作主张替代。
-13. 不要用 `transition` 代替基础状态显隐；状态优先用 controller + gear。
-14. 不要把参考图当作运行时节点塞进 `displayList`。
-15. 效果图结构判断、组件拆分和落地自检统一查看 P2 判断文档，不在 SKILL 本体展开细则。
-16. 为效果图补 `package.xml` 时，图片九宫格、平铺、平滑等资源语义必须结合效果图和显示尺寸判断，不能只看文件名。
+11. `ui://包id资源id` 的包 id 必须等于当前 `package.xml` 的 `packageDescription id`；资源 id 必须来自同一个 `package.xml` 的声明。已有资源按 `path + name` 复用原 id，不要重复声明同名图片或把示例 id 写进组件。
+12. 写组件 `displayList` 时，凡引用文件夹资源中的图片切图，统一写 `<loader url="ui://包id资源id" fill="scaleFree"/>`。`package.xml` 中图片资源仍声明为 `<image>`；组件显示层不要因为资源声明是 `<image>` 就写 `<image src="..."/>`。只有明确不是文件夹资源图、且项目样本已证明编辑器可读的特殊场景，才允许使用 `<image>`。
+13. 效果图需要的图片资源不存在时，只生成带语义 `name`、坐标和尺寸的空 `<loader fill="scaleFree"/>` 占位，并在交付说明列出缺失资源；不要用 `graph`、文本、色块或程序化形状自作主张替代。
+14. 不要用 `transition` 代替基础状态显隐；状态优先用 controller + gear。
+15. 不要把参考图当作运行时节点塞进 `displayList`。
+16. 效果图结构判断、组件拆分和落地自检统一查看 P2 判断文档，不在 SKILL 本体展开细则。
+17. 为效果图补 `package.xml` 时，图片九宫格、平铺、平滑等资源语义必须结合效果图和显示尺寸判断，不能只看文件名。
 
 ## 交付标准
 
@@ -70,6 +73,7 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 6. 没有明显断裂的 controller/page/transition/resource 引用。
 7. 用户明确给出，或效果图与显示尺寸已能判断的九宫格、平铺、平滑、白模染色信息已写入。
 8. 如果效果图命中 list/item/state，已经实际落地组件拆分、`defaultItem`、controller/gear 和 package 声明。
+9. 已按工程真实 `packageDescription id` 校验所有 `ui://` 前缀，并确认 `src`、`defaultItem`、`fileName`、`.objs/workspace.json` 中已打开组件 id 不会指向不存在资源。
 
 ## 索引
 

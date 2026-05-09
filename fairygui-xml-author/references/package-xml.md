@@ -4,6 +4,17 @@
 
 `package.xml` 只负责包级资源声明和发布信息。不要把组件显示对象、坐标布局或 `displayList` 内容写进这里。
 
+## 现有工程优先
+
+写入已有 FairyGUI 工程时，先把工程索引当作事实来源，而不是从示例生成新 id：
+
+- 读取已有 `package.xml`，以 `<packageDescription id="...">` 作为当前包 id。
+- 读取 `.objs/workspace.json`，记录 `doc.activeDoc`、`doc.openedDocs`、`libview.expandedNodes` 中出现的包 id 和组件 id；这些 id 往往是编辑器已经打开或缓存的真实文档。
+- 扫描现有组件 XML，建立 `component id -> name/fileName`、资源 `path + name -> id` 的映射。
+- 已有资源按 `path + name` 复用原 id，不要为同一 PNG/JPG/字体再声明一份短 id。
+- 只有确认是全新包、没有 `package.xml`、没有 `.objs/workspace.json` 或 metas 线索时，才允许生成新的包 id 和资源 id；示例里的 `pkgid01`、`root01` 只代表形态，不能直接照抄。
+- 如果编辑器已经自动补全了资源声明，保留它生成的资源 id，只在缺少组件声明或资源语义时做最小追加/修正。
+
 ## 基础结构
 
 ```xml
@@ -64,6 +75,7 @@
 - 本包资源常用 `src="res01"` 或 `url="ui://pkgidres01"`。
 - 外部公共包资源必须保留 `pkg`，例如 `pkg="commonpkg" src="button01"`。
 - 不要把跨包资源复制成本包资源，除非用户明确要求复制或当前工程无法解析原路径。
+- 本包 `ui://` 前缀必须等于当前 `packageDescription id`。例如包 id 是 `x7y3gns3` 时，资源引用必须是 `ui://x7y3gns3资源id`，不能使用自造的 `ui://pkg001资源id`。
 
 ## 资源语义
 
@@ -79,7 +91,7 @@
 - 用户已指定资源目录时，`package.xml` 必须优先回源到该目录。
 - 用户明确只允许引用切图时，不得用 `graph` 参与视觉还原。
 - 缺失切图时，不要擅自补造 UI；反馈缺口，或只生成空 loader 占位。
-- 用户要求切图必须走 loader 时，组件中使用 `<loader url="ui://pkgIdresId" fill="scaleFree"/>`，不要使用 `<image src="resId"/>`。
+- 用户项目规范要求切图必须走 loader：组件中使用 `<loader url="ui://pkgIdresId" fill="scaleFree"/>`，不要使用 `<image src="resId"/>`。
 - 无法确认资源语义时写“不确定”，不要猜九宫格、平铺、平滑等属性。
 
 ## 协议来源
