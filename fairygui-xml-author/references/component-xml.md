@@ -27,7 +27,7 @@
 - 页面根尽量只挂主面板组件，不要把复杂页面全部堆进根组件。
 - 组件 XML 只引用资源，不决定图片资源的九宫格、平铺或禁用平滑语义。
 - 对象 `id` 必须沿用项目导出口径；常见为 `n0`、`n1`、`n2`，语义放 `name`，不要为了可读性自造 `n0_bg`、`n1_btn`。
-- 图片资源显示实例要跟样本选择 `loader url="ui://包id资源id"` 或 `image src="资源id"`；同一项目不要混用两套口径。
+- 图片资源显示实例必须跟同包或同项目样本的写回口径：样本用 `<loader url="ui://包id资源id" fill="scaleFree"/>` 时，图片切图实例继续写 `loader`；只有样本明确在 `displayList` 中使用 `<image src="资源id"/>` 时才写 `image`。不要把 `package.xml` 的 `<image>` 资源声明当作组件显示层也应写 `<image>` 的依据。
 
 ## 协议规则
 
@@ -47,7 +47,7 @@
 
 ## displayList 写回口径
 
-- 图片写 `image` 或 `loader`，以项目样本为准；样本使用 `loader url="ui://..." fill="scaleFree"` 时继续使用 loader。
+- 图片切图实例以项目样本为准；样本使用 `loader url="ui://..." fill="scaleFree"` 时继续使用 `loader`，不得按资源声明类型改写成 `image`。
 - 普通文本写 `text`。
 - 输入文本写 `inputtext`。
 - 富文本写 `richtext`。
@@ -67,7 +67,7 @@
 - `tree` 是语义变体，不是常规最终写回标签。
 - `inputtext` 是输入文本的优先写回口径。
 - 只允许引用切图时，虽然协议允许 `graph`，但不得用 `graph` 参与视觉还原。
-- 缺图占位优先用空 loader，并在交付中说明对应的缺失资源。
+- 效果图上有但项目没有对应资源时，用带语义 `name`、坐标和尺寸的空 `loader` 占位，并在交付中说明对应的缺失资源；不要用 `graph`、文本、色块或程序化形状替代。
 - 用户要求切图必须走 loader 时，已知资源也写 `<loader url="ui://pkgIdresId" fill="scaleFree"/>`，不要写 `<image src="resId"/>`。
 - 详细映射见 [displaylist-variants.md](displaylist-variants.md)。
 

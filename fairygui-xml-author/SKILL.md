@@ -1,6 +1,6 @@
 ---
 name: fairygui-xml-author
-description: FairyGUI XML 写作技能包，提供直接编写、修改、排查和校验 FairyGUI 工程 XML 的规则、效果图结构判定方法和组件索引。
+description: FairyGUI XML 写作技能包，提供直接编写、修改、排查和校验 FairyGUI 工程 XML 的入口规则、参考文档和组件索引。
 ---
 
 ## 简介
@@ -17,13 +17,13 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 - 无法确认标签、属性、资源或跨包引用时，先查项目样本和本技能索引；仍无法确认时标记缺口。
 - 新写 XML 时优先复用现有样本的命名、拆分、布尔值、默认值和引用口径。
 - 项目样本优先于通用协议；尤其是显示对象标签、资源引用方式、对象 id 形态和组件拆分口径。
-- 纯切图模式下，不要用 `graph`、文本色块或程序化形状脑补缺失美术。
+- 效果图上有但项目没有对应切图或资源时，保留结构并使用空 `loader` 占位；不要用 `graph`、文本色块、程序化形状或自造图片替代缺失美术。
 
 ## 核心特点
 
 - **包与组件分离**：`package.xml` 只声明资源，组件 XML 只写显示结构。
 - **引用闭合优先**：`id`、`src`、`pkg`、`fileName`、controller、page、transition 都必须能解析。
-- **效果图先判定**：根据视觉内容先拆页面、面板、list、item、按钮、进度条和状态。
+- **效果图先判定**：任务来自效果图或截图时，先进入 P2 效果图判断文档，再写 XML。
 - **数据驱动拆分**：重复项、滚动区和互斥状态优先落地为 `list + item + controller + gear`。
 - **按需读取文档**：根据任务只读取对应 `references/`、`components/`、`judgment/` 或 `validation/` 文档。
 
@@ -51,32 +51,12 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 8. 新写 XML 优先使用 canonical 属性名，不优先写 alias。
 9. 对象 `id` 形态必须跟项目样本一致；常见编辑器导出为 `n0`、`n1`，语义写在 `name`，不要擅自写 `n0_bg` 等自造格式。
 10. 命中重复数据项或滚动区域时，使用 `list + item`。
-11. 图片资源实例优先跟样本选择 `loader url="ui://..."` 或 `image src="..."`；若样本大量使用 loader，不要改写成 image。
-12. 不要用 `transition` 代替基础状态显隐；状态优先用 controller + gear。
-13. 不要把参考图当作运行时节点塞进 `displayList`。
-
-## 效果图组件判定与自检
-
-### 判定规则
-
-1. 页面类型先行判断：游戏 HUD、弹窗、列表页、加载页、结算页、状态 item、商店、设置、排行榜。
-2. 2 个以上重复数据单元，或明显可滚动区域，默认使用 `list + item`。
-3. 可点击区域先按项目样本落地；样本使用 `loader + text + gearDisplay` 时不要强拆 Button 组件，有现成 Button 组件再复用。
-4. 头像、奖励、皮肤、广告图、动态背景、运行时图标优先用 loader 或复用组件。
-5. 固定底框、装饰和标题框可用 image 或 loader；最终以项目样本口径为准。
-6. 进度、血条、加载条、任务完成度优先用 `extention="ProgressBar"`。
-7. 空数据、加载中、可领取、已领取、锁定、选中、禁用等互斥状态必须写 controller + gear。
-8. 弹窗、商店、设置、排行榜优先复用公共底框、内框、标题框、关闭按钮、等待弹窗。
-9. 可伸缩底框、按钮底、卡片底、标签底、进度槽必须补齐 `package.xml` 九宫格语义。
-
-### 落地要求
-
-1. 命中 list：面板必须写 `<list>` 和 `defaultItem`。
-2. 命中 item：必须有独立 item XML，并在 `package.xml` 声明 `<component>`。
-3. 命中状态：item 内必须写 controller 和对应 gear。
-4. 命中基础控件复用：必须新建/复用基础组件，或说明保留在 item 内的理由。
-5. 引用闭环必须包含 `package.xml` 声明、`defaultItem`、`component src`、`fileName`、controller page 和 gear pages。
-6. 缺少 item 必需切图时，使用空 loader 占位并说明缺图，不要退回面板平铺静态项。
+11. 写组件 `displayList` 前必须先查同包或同项目样本确定图片实例口径：样本用 `<loader url="ui://..." fill="scaleFree"/>` 时，所有图片切图实例继续写 `loader`；只有样本明确在 `displayList` 中使用 `<image src="..."/>` 时才写 `image`。不要把 `package.xml` 里的 `<image>` 资源声明误当成组件显示层也应写 `<image>` 的依据。
+12. 效果图需要的图片资源不存在时，只生成带语义 `name`、坐标和尺寸的空 `<loader fill="scaleFree"/>` 占位，并在交付说明列出缺失资源；不要用 `graph`、文本、色块或程序化形状自作主张替代。
+13. 不要用 `transition` 代替基础状态显隐；状态优先用 controller + gear。
+14. 不要把参考图当作运行时节点塞进 `displayList`。
+15. 效果图结构判断、组件拆分和落地自检统一查看 P2 判断文档，不在 SKILL 本体展开细则。
+16. 为效果图补 `package.xml` 时，图片九宫格、平铺、平滑等资源语义必须结合效果图和显示尺寸判断，不能只看文件名。
 
 ## 交付标准
 
@@ -88,7 +68,7 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 4. 本地引用闭合。
 5. 没有明显重复 id。
 6. 没有明显断裂的 controller/page/transition/resource 引用。
-7. 用户明确给出的九宫格、平铺、平滑、白模染色信息已写入。
+7. 用户明确给出，或效果图与显示尺寸已能判断的九宫格、平铺、平滑、白模染色信息已写入。
 8. 如果效果图命中 list/item/state，已经实际落地组件拆分、`defaultItem`、controller/gear 和 package 声明。
 
 ## 索引
@@ -100,9 +80,9 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 - [Package XML](references/package-xml.md)：`packageDescription`、`resources`、`publish`、资源声明、图片资源属性、九宫格、平铺、平滑、白模染色、资源语义和包级协议来源。
 - [Component XML](references/component-xml.md)：`<component>`、`displayList`、显示对象属性、标签变体、组件拆分、`designImage`、扩展节点、controller/gear 和组件级协议来源。
 
-### 效果图 / 截图 -> FairyGUI 结构判断
+### P2 效果图 / 截图 -> FairyGUI 结构判断
 
-- [Screenshot Judgment](judgment/screenshot-judgment.md)：页面类型、重复单元、滚动区域、按钮、loader、image、ProgressBar、controller 和 gear。
+- [Screenshot Judgment](judgment/screenshot-judgment.md)：页面类型、重复单元、滚动区域、按钮、loader、image、ProgressBar、controller、gear 和效果图反推九宫格。
 - [Component Splitting](judgment/component-splitting.md)：页面根、面板、列表项、基础控件和公共组件拆分边界。
 
 ### displayList 节点与扩展组件

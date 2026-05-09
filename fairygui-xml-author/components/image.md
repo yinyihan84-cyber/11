@@ -2,7 +2,7 @@
 
 ## 用途
 
-用于项目样本明确使用 `image src` 的固定静态切图，例如背景、装饰、标题框、固定图标和不需要运行时替换的图片。
+仅用于项目样本明确在组件 `displayList` 中使用 `<image src="..."/>` 的固定静态切图。不要因为 `package.xml` 里用 `<image>` 声明资源，就推断显示对象也应该写 `<image>`。
 
 ## 合法位置
 
@@ -26,8 +26,8 @@
 ## 结构规则
 
 - `src` 指向 `package.xml` 中的图片资源 id。
-- 固定切图用 `image`，运行时资源位优先用 `loader`。
-- 如果项目样本把固定切图也写成 `loader url="ui://..." fill="scaleFree"`，新 XML 必须继续用 loader。
+- 固定切图也必须先看项目样本；样本显示层用 `loader url="ui://..." fill="scaleFree"` 时，新 XML 必须继续用 `loader`。
+- 只有样本明确在 `displayList` 中写 `<image src="..."/>` 时，才使用 `image`。
 - 可伸缩底框的九宫格语义写在 `package.xml` 资源声明中。
 - 白模染色可在显示节点写 `color="#RRGGBB"`。
 
