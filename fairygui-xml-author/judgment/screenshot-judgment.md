@@ -22,11 +22,11 @@
 
 根据效果图写 XML 前，必须先判断它是“静态拼图”还是“数据驱动组件”。
 
-- 找重复：同一视觉单元重复出现 2 次以上，且只是文案、图标、进度、奖励、按钮状态不同，默认抽成 item 组件。
-- 找滚动：重复单元位于裁切窗口内、底部有被截断的下一条、或数量显然可能超过当前可见区域，默认使用 list。
-- 找状态：同一 item 存在未完成、待领取、已完成、锁定、选中、禁用、不同奖励展示等互斥视觉结果，默认在 item 内建立 controller + gear。
-- 找子控件：item 内有进度条、按钮、标签、奖励格、等级角标等可复用块，优先独立成子组件或复用已有组件。
-- 找数据位：标题、描述、数量、进度值、图标、奖励、等级等运行时变化内容，只在 XML 中放预览值；不要为每条数据写死一套结构。
+1. 重复：同一视觉单元出现 2 次以上，默认抽成 item。
+2. 滚动：重复单元在裁切窗口内、底部截断或数量可变，默认使用 list。
+3. 状态：同一 item 存在互斥视觉结果，默认写 controller + gear。
+4. 子控件：进度条、按钮、标签、奖励格、等级角标优先复用或拆成子组件。
+5. 数据位：标题、描述、数量、进度、图标、奖励、等级只放预览值。
 
 ## 节点选择判断
 
@@ -62,15 +62,15 @@
 - Item 组件：包含状态 controller、gear、任务图标、文案、进度、奖励、状态按钮。
 - 基础控件组件：例如进度条，必要时由 item 组件引用。
 
-如果目标工程已有同类 `GameTaskPanel.xml`、`TaskItem.xml`、`TaskProgress.xml` 等样本，优先沿用其拆分和命名风格；如果没有样本，则按语义生成中性文件名，例如 `Panel.xml`、`ListItem.xml`、`Progress.xml`。
+有 `GameTaskPanel.xml`、`TaskItem.xml`、`TaskProgress.xml` 等样本时沿用样本；没有样本时用 `Panel.xml`、`ListItem.xml`、`Progress.xml` 等中性命名。
 
 ## 强制落地自检
 
-- 命中 list：面板组件中必须写 `<list>`，并设置 `defaultItem`。
-- 命中 item 组件：必须新建或维护独立 item XML，并在 `package.xml` 中声明对应 `<component>` 资源。
-- 命中 item 状态：item XML 必须写 controller，并用 `gearDisplay` / `gearIcon` / `gearColor` / `gearText` 等表达互斥状态。
-- 命中基础控件：进度条、按钮、奖励格等在多个 item 或状态中复用时，必须新建/复用基础组件，或明确说明为什么保持在 item 内更合适。
-- 引用闭环：`package.xml` 声明页面、面板、item、基础控件组件；主面板中的 `list defaultItem` 指向 item 组件的 `ui://包id组件id`；item 内 `<component src="...">` 指向基础控件组件；controller 名、page id、gear pages 全部在 item 组件内闭合。
+1. 命中 list：面板组件必须写 `<list>` 和 `defaultItem`。
+2. 命中 item：必须有独立 item XML，并在 `package.xml` 声明。
+3. 命中状态：item XML 必须写 controller 和 `gearDisplay` / `gearIcon` / `gearColor` / `gearText`。
+4. 命中基础控件复用：必须新建/复用基础组件，或说明保留在 item 内的理由。
+5. 引用闭环：`package.xml`、`defaultItem`、`component src`、`fileName`、controller page、gear pages 必须全部闭合。
 
 ## 结构判断输出
 
