@@ -6,6 +6,7 @@
 
 ## 资源引用
 
+- 不引用未确认存在的 `id`、`src`、`pkg` 或资源路径。
 - `src` 能在当前包 `package.xml` 中找到。
 - `pkg + src` 能在外部包中找到；跨包引用不要丢 `pkg`。
 - `url="ui://pkgidresid"` 的包 id 必须等于当前 `packageDescription id`，资源 id 必须能在同一个 `package.xml` 中找到；校验时用当前包 id 作为前缀拆分，不要按固定长度或示例 id 猜测。
@@ -23,6 +24,7 @@
 
 ## controller 和 page
 
+- 不引用未确认存在的 controller 或 page。
 - 每个 `gear controller` 都能在当前组件中找到。
 - `gear pages` 都属于对应 controller。
 - `pageController`、`selectionController` 都存在。
@@ -31,6 +33,7 @@
 
 ## transition 和 relation
 
+- 不引用未确认存在的 transition、transition target、action target 或 relation target。
 - `transition item target` 指向存在对象。
 - `action.controller` 存在。
 - `action.targetPage` 属于对应 controller。

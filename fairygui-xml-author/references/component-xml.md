@@ -26,6 +26,7 @@
 - `relation`、`gear*`、扩展子节点写在它们控制的显示对象内部。
 - 页面根尽量只挂主面板组件，不要把复杂页面全部堆进根组件。
 - 组件 XML 只引用资源，不决定图片资源的九宫格、平铺或禁用平滑语义。
+- 组件 XML 第一版不是最终布局；根据效果图写完后，必须二次验收坐标、尺寸、缩放比例、颜色、透明度、层级、状态 gear、资源引用和缺图空 loader，再回改组件 XML。
 - 对象 `id` 必须沿用项目导出口径；常见为 `n0`、`n1`、`n2`，语义放 `name`，不要为了可读性自造 `n0_bg`、`n1_btn`。
 - 用户项目强制规范：组件 `displayList` 中凡引用文件夹资源里的图片切图，必须写 `<loader url="ui://包id资源id" fill="scaleFree"/>`。不要写 `<image src="资源id"/>` 来承载这些资源，即使 `package.xml` 里资源声明标签是 `<image>`。
 - 组件实例的 `src`、列表的 `defaultItem`、loader 的 `url` 必须引用当前工程已有或刚写入 `package.xml` 的真实 id。已有工程中如果 `.objs/workspace.json` 已记录 `ui://包id组件id`，优先复用该组件 id 或同步更新 workspace，避免编辑器恢复打开文档时指向不存在组件。
@@ -37,7 +38,7 @@
 - `displayList` 标签变体可参考 [displaylist-variants.md](displaylist-variants.md)。
 - 协议来源和可靠边界可参考 [openfairygui-derived-notes.md](openfairygui-derived-notes.md)。
 
-## 组件禁令
+## 禁令
 
 - 不要发明未确认存在的标签或属性。
 - 不要引用不存在的 `id`、`src`、`pkg`、controller、page、transition。
@@ -71,7 +72,30 @@
 - 只允许引用切图时，虽然协议允许 `graph` 和 `image`，但不得用 `graph` 或 `<image src="..."/>` 参与文件夹资源图的视觉还原。
 - 效果图上有但项目没有对应资源时，用带语义 `name`、坐标和尺寸的空 `loader` 占位，并在交付中说明对应的缺失资源；不要用 `graph`、文本、色块或程序化形状替代。
 - 文件夹资源图片必须走 loader；已知资源写 `<loader url="ui://pkgIdresId" fill="scaleFree"/>`，缺失资源写空 `<loader fill="scaleFree"/>` 占位，不要写 `<image src="resId"/>`。
+- 缺失资源的空 loader 也必须参与二次验收：`name` 要说明缺什么，`xy`、`size`、缩放方式和层级都要按效果图保留，不能随意放一个零尺寸或粗略占位。
 - 详细映射见 [displaylist-variants.md](displaylist-variants.md)。
+
+## 界面内group的划分
+
+从效果图还原 component XML 时，先识别功能组件和复合区域，再写 `displayList`；不要把界面拆成一堆无归属散件。
+
+- 按钮、标题、奖励格、进度条、头像/图标、状态块等复合 UI 应建立语义 `group`。
+- `group` 只用于整体移动、显隐和绑定，不是父容器；组内元素仍使用组件内绝对坐标。
+- 每个 `group` 必须有一个基准元素，例如底图、头像框、进度条底板、按钮底图。
+- 子元素坐标应相对基准元素推导：居中、右下角、左右排列、等距排列等，而不是孤立抄坐标。
+- `group` 的 `xy` 和 `size` 由内部元素外接矩形计算得出。
+- 对象 `id` 沿用项目样本口径；语义写入 `name`，避免只有 `n31`、`n32` 这类不可维护名称。
+- 重复卡片、行、格子必须抽成 item 组件，主界面只放 list；状态差异优先用 controller + gear 管理。
+
+## 拼后视觉验收
+
+任务来自效果图时，组件 XML 初稿完成后必须对照效果图复查：
+
+- 坐标、尺寸、缩放比例是否贴合效果图，尤其是面板、列表、item、按钮、进度条、奖励格和缺图 loader。
+- 颜色、透明度、文本描边和可染色资源颜色是否来自效果图；多状态颜色用 controller + gear 表达。不要按文件名枚举判断是否染色，应先看源图主体是否白色或近灰白、再看效果图中该实例目标区域是否非白色。
+- 资源引用是否准确；不确定或缺失资源继续使用空 loader，不用相似图片替代。
+- 层级和遮挡顺序是否正确；状态节点是否通过 gearDisplay、gearIcon、gearColor、gearText 表达。
+- 如果视觉偏差来自九宫格、平铺或平滑，回改 `package.xml`；如果偏差来自布局、颜色、状态或引用，回改组件 XML。
 
 ## 推荐拆分
 

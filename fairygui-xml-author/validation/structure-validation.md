@@ -13,10 +13,16 @@
 ## displayList
 
 - `displayList` 中只出现合法显示对象标签。
+- 不发明未确认存在的显示对象标签。
 - `input="true"` 的文本应使用 `inputtext` 变体。
 - 树结构应使用 `list treeView="true"`。
 - `loader3d` 保持已确认的小写 tag。
 - 不把包级资源声明放进 `displayList`。
+- `package.xml` 的资源声明标签，例如 `<resources>`、`<image>` 资源声明、`<movieclip>` 资源声明、`<font>`，不得作为组件显示对象写入 `displayList`。
+
+## package.xml 边界
+
+- `package.xml` 中不得出现组件显示对象、坐标布局或 `displayList` 内容。
 
 ## 子节点位置
 
