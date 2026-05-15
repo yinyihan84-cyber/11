@@ -7,12 +7,29 @@ description: FairyGUI XML 写作技能包，提供直接编写、修改、排查
 
 FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `package.xml` 和组件 XML，保证标签、属性、结构、资源和引用都能被 FairyGUI 工程读取。
 
-**注意事项**
+## 使用规则
+
+以下规则直接决定 FairyGUI XML 应如何编写：
+
+1. 本技能用于直接写 FairyGUI XML，不依赖 FairyGUI 编辑器操作；编写前先判断目标文件类型是 `package.xml` 还是组件 XML。
+2. `package.xml` 只写包级资源声明、组件资源、图片资源、发布信息和资源语义；组件 XML 只写显示结构、控制器、过渡和扩展能力。
+3. 组件 XML 根节点为 `<component>`，显示对象放在 `<displayList>`；扩展能力通过根 `extention` 或显示对象子节点表达。
+4. 写入已有 FairyGUI 工程前，必须先读取 `package.xml`、`.objs/workspace.json`、`.objs/metas/` 和现有组件 XML，建立真实 `packageDescription id`、资源 id、组件 id、对象 id 和 `path + name` 映射。
+5. 标签、属性、资源 id、对象 id、controller、page、transition 和跨包引用都必须来自项目样本、已读工程索引或本技能文档；无法确认时先查索引，仍无法确认时标记缺口，不要自行创造协议。
+6. 新写 XML 优先使用 canonical 属性名，不优先写 alias；对象 `id` 形态必须跟项目样本一致，常见编辑器导出为 `n0`、`n1`，语义写在 `name`，不要擅自写 `n0_bg` 等自造格式。
+7. `ui://包id资源id` 的包 id 必须等于当前 `package.xml` 的 `packageDescription id`；资源 id 必须来自同一个 `package.xml` 的声明；已有资源按 `path + name` 复用原 id，不要重复声明同名图片或把示例 id 写进组件。
+8. 文件夹资源图片在组件显示层统一使用 `<loader url="ui://包id资源id" fill="scaleFree"/>`；资源缺失时使用带语义 `name`、坐标和尺寸的空 loader 占位，并说明缺口。
+9. 不要把参考图当作运行时节点塞进 `displayList`；不要用 `graph`、文本色块、程序化形状、相似图片或自造图片替代缺失美术。
+10. 任务来自效果图、截图、`res/效果图`、`切图/效果图`、`界面效果图` 等参考目录时，先判断视觉结构，再写 package/component 初稿，随后必须对照效果图做拼后视觉验收并回改 XML。
+11. 拼后视觉验收不只检查 package：组件坐标、尺寸、缩放比例、颜色、透明度、层级、资源引用、状态 gear 和缺图空 loader 的位置尺寸都必须对照效果图复查。
+12. 重复项、滚动区和互斥状态优先落地为 `list + item + controller + gear`；不要用静态平铺或 group 替代应该拆分的数据结构。
+
+## 注意事项
 
 - 本技能用于直接写 FairyGUI XML，不依赖 FairyGUI 编辑器操作。
 - 编写前先判断目标文件类型：`package.xml` 或组件 XML。
 - 任务来自效果图、截图、`res/效果图`、`切图/效果图`、`界面效果图` 等参考目录时，先判断视觉结构，再写 package/component 初稿，随后必须对照效果图做二次验收并回改 XML。
-- .xml文件只能写已确认合法的标签和属性。
+- XML 文件只能写已确认合法的标签和属性。
 - 无法确认标签、属性、资源或跨包引用时，先查项目样本和本技能索引；仍无法确认时标记缺口。
 - 新写 XML 时优先复用现有样本的命名、拆分、布尔值、默认值和引用口径。
 - 项目样本优先于通用协议；尤其是显示对象标签、资源引用方式、对象 id 形态和组件拆分口径。
@@ -75,11 +92,12 @@ FairyGUI XML 是一套受约束的 UI 配置语言，重点在于正确编写 `p
 - [Text](components/text.md)：文本、输入文本、富文本的选择和基础属性。
 - [Button](components/button.md)：Button 扩展节点和按钮实例。
 - [List](components/list.md)：列表、`defaultItem`、item、滚动和重复项。
+- [Group](components/group.md)：displayList 分组对象、成员 `group` 属性绑定和非容器写法。
 - [Controller](components/controller.md)：controller 命名、pages、selected。
 - [Gear](components/gear.md)：gearDisplay、gearIcon、gearColor、gearText、gearDisplay2。
 - [ProgressBar](components/progressbar.md)：ProgressBar 根组件和实例。
 - [Transition](components/transition.md)：最小 transition、闪烁、显隐、缩放。
-- [Relation](components/relation.md)：relation、group、pivot、anchor 和布局关系。
+- [Relation](components/relation.md)：relation、pivot、anchor，以及与 group 同时出现时的布局口径。
 
 ### 校验与诊断
 
